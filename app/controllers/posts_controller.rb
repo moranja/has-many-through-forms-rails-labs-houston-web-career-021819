@@ -1,6 +1,7 @@
 class PostsController < ApplicationController
   def show
     @post = Post.find(params[:id])
+    @users = @post.uniq_users
   end
 
   def index
@@ -9,16 +10,21 @@ class PostsController < ApplicationController
 
   def new
     @post = Post.new
+    @categories = Category.all
   end
 
   def create
-    post = Post.create(post_params)
+    #byebug
+    post = Post.create(post_params(:title, :content))
+    self.categories_attributes= post_params(categories_attributes: [:name])
     redirect_to post
   end
 
   private
 
-  def post_params
-    params.require(:post).permit(:title, :content, category_ids:[], categories_attributes: [:name])
+  def post_params(*args)
+    params.require(:post).permit(*args)
   end
 end
+
+# :title, :content, category_ids:[], categories_attributes: [:name]
