@@ -50,3 +50,24 @@ We've looked at setting up the associations behind posts with comments, categori
   <%= f.text_area :content %>
   <%= f.submit %>
 <% end %>
+
+<%= form_for @comment do |f| %>
+<%= f.hidden_field :post_id, { :value => @post.id } %>
+<%= f.label :content %>
+<%= f.text_area :content %>
+  <%= f.fields_for :user_attributes do |users_fields| %>
+    <%= users_fields.label :username %>
+    <%= users_fields.text_field :username %>
+    <%= users_fields.label :email %>
+    <%= users_fields.text_field :email %>
+  <% end %>
+  <%= f.submit %>
+<% end %>
+
+
+<%= f.fields_for :user_attributes do |users_fields| %><br>
+ <%= users_fields.label :username %><br>
+ <%= users_fields.text_field :username %><br>
+ <%= users_fields.label :email %><br>
+ <%= users_fields.text_field :email %><br>
+<% end %>
