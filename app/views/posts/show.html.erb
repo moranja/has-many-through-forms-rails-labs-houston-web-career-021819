@@ -11,3 +11,22 @@
     <li><%= link_to user.username, user_path(user) %></li>
   <% end %>
 </ul>
+<ul>
+  <% @post.categories.each do |cat| %>
+    <li><%= cat.name %></li>
+  <% end %>
+</ul>
+
+<%= form_for @comment do |f| %>
+  <%= f.fields_for :user_attributes, @comment.user do |users_fields| %>
+    <%= users_fields.label :username %>
+    <%= users_fields.text_field :username %>
+    <%= users_fields.label :email %>
+    <%= users_fields.text_field :email %>
+  <% end %>
+  <%= f.label :content %>
+  <%= f.text_area :content %>
+  <%= f.submit %>
+<% end %>
+
+<% #can't get dropdown to work, best attempt in readme. Above form kinda works, but won't pass post.id to the comment controller. confused about collection_select, and f.fields_for line, specifically what happens before the |do| %>
